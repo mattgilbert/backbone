@@ -150,6 +150,26 @@ $(document).ready(function() {
     equal((new viewClass).el.className, 'dynamic');
   });
 
+  test("View: optionally named model", function() {
+    var ViewClass = Backbone.View.extend({
+        modelName: 'foo'
+    });
+
+    var fooModel = {};
+
+    var view1 = new ViewClass({ model: fooModel });
+    equal(fooModel, view1.model);
+    equal(fooModel, view1.foo);
+
+    var view2 = new ViewClass({ foo: fooModel });
+    equal(fooModel, view2.model);
+    equal(fooModel, view2.foo);
+
+    var noModel = new ViewClass({});
+    equal(undefined, noModel.model);
+    equal(undefined, noModel.foo);
+  });
+
   test("View: multiple views per element", function() {
     var count = 0, ViewClass = Backbone.View.extend({
       el: $("body"),
